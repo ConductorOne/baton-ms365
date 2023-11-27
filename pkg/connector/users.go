@@ -19,20 +19,35 @@ type userBuilder struct {
 }
 
 func newUserResouce(ctx context.Context, user models.Userable) (*v2.Resource, error) {
-	firstName := user.GetGivenName()
-	if firstName == nil {
-		firstName = user.GetDisplayName()
+	displayName := user.GetDisplayName()
+	if displayName == nil {
+		return nil, wrapError(nil, "user does not have a display name")
+	}
+	userName := user.GetUserPrincipalName()
+	if userName == nil {
+		return nil, wrapError(nil, "user does not have a user principal name")
+	}
+	userId := user.GetId()
+	if userId == nil {
+		return nil, wrapError(nil, "user does not have an id")
 	}
 
-	userName := *user.GetUserPrincipalName()
+	firstName := user.GetGivenName()
+	if firstName == nil {
+		firstName = displayName
+	}
 
 	profile := map[string]interface{}{
-		"first_name":   user.GetGivenName(),
-		"last_name":    user.GetSurname(),
-		"display_name": user.GetDisplayName(),
-		"email":        user.GetMail(),
-		"login":        userName,
-		"user_id":      user.GetId(),
+		"first_name":   *firstName,
+		"display_name": *displayName,
+		"login":        *userName,
+		"user_id":      *user.GetId(),
+	}
+	if lastName := user.GetSurname(); lastName != nil {
+		profile["last_name"] = *lastName
+	}
+	if email := user.GetMail(); email != nil {
+		profile["email"] = *email
 	}
 
 	var status v2.UserTrait_Status_Status
@@ -40,19 +55,18 @@ func newUserResouce(ctx context.Context, user models.Userable) (*v2.Resource, er
 		status = v2.UserTrait_Status_STATUS_ENABLED
 	} else {
 		status = v2.UserTrait_Status_STATUS_DISABLED
-
 	}
 
 	userTraits := []rs.UserTraitOption{
 		rs.WithUserProfile(profile),
-		rs.WithUserLogin(userName),
+		rs.WithUserLogin(*userName),
 		rs.WithStatus(status),
 	}
 
 	resource, err := rs.NewUserResource(
-		*user.GetDisplayName(),
+		*displayName,
 		userResourceType,
-		user.GetId(),
+		*userId,
 		userTraits,
 	)
 	if err != nil {
@@ -104,7 +118,7 @@ func (o *userBuilder) List(ctx context.Context, parentResourceID *v2.ResourceId,
 		return nil, "", nil, wrapError(err, "failed to iterate users collection")
 	}
 
-	return nil, "", nil, nil
+	return resources, "", nil, nil
 }
 
 // Entitlements always returns an empty slice for users.

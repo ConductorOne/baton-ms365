@@ -48,7 +48,8 @@ func New(ctx context.Context, tenantId, clientId string, auth AuthenticationMeth
 		return nil, err
 	}
 
-	client, err := msgraphsdkgo.NewGraphServiceClientWithCredentials(credential, nil)
+	var scopes []string = []string{"https://graph.microsoft.com/.default"}
+	client, err := msgraphsdkgo.NewGraphServiceClientWithCredentials(credential, scopes)
 	if err != nil {
 		return nil, wrapError(err, "failed to create graph client")
 	}
