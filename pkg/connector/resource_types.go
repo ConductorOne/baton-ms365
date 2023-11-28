@@ -5,9 +5,18 @@ import (
 )
 
 // The user resource type is for all user objects from the database.
-var userResourceType = &v2.ResourceType{
-	Id:          "user",
-	DisplayName: "User",
-	Traits:      []v2.ResourceType_Trait{v2.ResourceType_TRAIT_USER},
-	Annotations: getSkipEntitlementsAndGrantsAnnotations(),
-}
+var (
+	userResourceType = &v2.ResourceType{
+		Id:          "user",
+		DisplayName: "User",
+		Description: "MS365 user",
+		Traits:      []v2.ResourceType_Trait{v2.ResourceType_TRAIT_USER},
+		Annotations: getSkipEntitlementsAndGrantsAnnotations(),
+	}
+	roleResourceType = &v2.ResourceType{
+		Id:          "role",
+		DisplayName: "Role",
+		Description: "Admin role of MS365",
+		Traits:      []v2.ResourceType_Trait{v2.ResourceType_TRAIT_ROLE},
+	}
+)
