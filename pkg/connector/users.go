@@ -18,7 +18,7 @@ type userBuilder struct {
 	client       *msgraphsdkgo.GraphServiceClient
 }
 
-func newUserResouce(ctx context.Context, user models.Userable) (*v2.Resource, error) {
+func newUserResource(ctx context.Context, user models.Userable) (*v2.Resource, error) {
 	displayName := user.GetDisplayName()
 	if displayName == nil {
 		return nil, wrapError(nil, "user does not have a display name")
@@ -100,7 +100,7 @@ func (o *userBuilder) List(ctx context.Context, parentResourceID *v2.ResourceId,
 	var innerErr error
 	var resources []*v2.Resource
 	err = iterator.Iterate(ctx, func(user models.Userable) bool {
-		resource, err := newUserResouce(ctx, user)
+		resource, err := newUserResource(ctx, user)
 		if err != nil {
 			innerErr = wrapError(err, "failed to create user resource")
 

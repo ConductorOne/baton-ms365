@@ -18,6 +18,7 @@ type MS365 struct {
 func (d *MS365) ResourceSyncers(ctx context.Context) []connectorbuilder.ResourceSyncer {
 	return []connectorbuilder.ResourceSyncer{
 		newUserBuilder(d.client),
+		newGroupBuilder(d.client),
 	}
 }
 

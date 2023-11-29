@@ -19,4 +19,10 @@ var (
 		Description: "Admin role of MS365",
 		Traits:      []v2.ResourceType_Trait{v2.ResourceType_TRAIT_ROLE},
 	}
+	groupResourceType = &v2.ResourceType{
+		Id:          "group",
+		DisplayName: "Group",
+		Description: "MS365 group",
+		Traits:      []v2.ResourceType_Trait{v2.ResourceType_TRAIT_GROUP},
+	}
 )
