@@ -1,3 +1,6 @@
 package connector
 
-const memberEntitlement = "member"
+const (
+	memberEntitlement   = "member"
+	assignedEntitlement = "assigned"
+)
