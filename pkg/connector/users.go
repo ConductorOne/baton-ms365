@@ -2,6 +2,7 @@ package connector
 
 import (
 	"context"
+	"fmt"
 
 	v2 "github.com/conductorone/baton-sdk/pb/c1/connector/v2"
 	"github.com/conductorone/baton-sdk/pkg/annotations"
@@ -136,4 +137,8 @@ func newUserBuilder(client *msgraphsdkgo.GraphServiceClient) *userBuilder {
 		resourceType: userResourceType,
 		client:       client,
 	}
+}
+
+func getODataId(id string) string {
+	return fmt.Sprintf("https://graph.microsoft.com/v1.0/directoryObjects/%s", id)
 }

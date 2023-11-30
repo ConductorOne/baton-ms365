@@ -10,10 +10,12 @@ import (
 	ent "github.com/conductorone/baton-sdk/pkg/types/entitlement"
 	grant "github.com/conductorone/baton-sdk/pkg/types/grant"
 	rs "github.com/conductorone/baton-sdk/pkg/types/resource"
+	"github.com/grpc-ecosystem/go-grpc-middleware/logging/zap/ctxzap"
 	msgraphsdkgo "github.com/microsoftgraph/msgraph-sdk-go"
 	msgraphgocore "github.com/microsoftgraph/msgraph-sdk-go-core"
 	"github.com/microsoftgraph/msgraph-sdk-go/groups"
 	"github.com/microsoftgraph/msgraph-sdk-go/models"
+	"go.uber.org/zap"
 )
 
 type groupBuilder struct {
@@ -149,6 +151,66 @@ func (g *groupBuilder) Grants(ctx context.Context, resource *v2.Resource, _ *pag
 	}
 
 	return grants, "", nil, nil
+}
+
+func (g *groupBuilder) Grant(ctx context.Context, principal *v2.Resource, entitlement *v2.Entitlement) (annotations.Annotations, error) {
+	l := ctxzap.Extract(ctx)
+
+	if principal.Id.ResourceType != userResourceType.Id {
+		err := fmt.Errorf("baton-ms365: only users can be granted to groups")
+
+		l.Warn(
+			err.Error(),
+			zap.String("principal_id", principal.Id.Resource),
+			zap.String("principal_type", principal.Id.ResourceType),
+		)
+	}
+
+	reference := models.NewReferenceCreate()
+	oDataId := getODataId(principal.Id.Resource)
+	reference.SetOdataId(&oDataId)
+	err := g.client.Groups().ByGroupId(entitlement.Resource.Id.Resource).Members().Ref().Post(ctx, reference, nil)
+	if err != nil {
+		err := wrapError(err, "failed to grant user to group")
+
+		l.Error(
+			err.Error(),
+			zap.String("group_id", entitlement.Resource.Id.Resource),
+			zap.String("user_id", principal.Id.Resource),
+		)
+	}
+
+	return nil, nil
+}
+
+func (g *groupBuilder) Revoke(ctx context.Context, grant *v2.Grant) (annotations.Annotations, error) {
+	l := ctxzap.Extract(ctx)
+
+	entitlement := grant.Entitlement
+	principal := grant.Principal
+
+	if principal.Id.ResourceType != userResourceType.Id {
+		err := fmt.Errorf("baton-ms365: only users can be revoked from groups")
+
+		l.Warn(
+			err.Error(),
+			zap.String("principal_id", principal.Id.Resource),
+			zap.String("principal_type", principal.Id.ResourceType),
+		)
+	}
+
+	err := g.client.Groups().ByGroupId(entitlement.Resource.Id.Resource).Members().ByDirectoryObjectId(principal.Id.Resource).Ref().Delete(ctx, nil)
+	if err != nil {
+		err := wrapError(err, "failed to revoke user from group")
+
+		l.Error(
+			err.Error(),
+			zap.String("group_id", entitlement.Resource.Id.Resource),
+			zap.String("user_id", principal.Id.Resource),
+		)
+	}
+
+	return nil, nil
 }
 
 func newGroupBuilder(client *msgraphsdkgo.GraphServiceClient) *groupBuilder {
