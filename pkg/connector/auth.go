@@ -29,7 +29,10 @@ func WithClientCertificate(clientCertificatePath string) AuthenticationMethod {
 		}
 
 		bytes := make([]byte, fileInfo.Size())
-		file.Read(bytes)
+		_, err = file.Read(bytes)
+		if err != nil {
+			return nil, wrapError(err, "error reading client certificate file")
+		}
 
 		certs, key, err := azidentity.ParseCertificates(bytes, nil)
 		if err != nil {
