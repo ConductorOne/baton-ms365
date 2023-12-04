@@ -12,6 +12,12 @@ Connector use Client credentials OAuth 2.0 flow. As described [here](https://lea
 
 After you have obtained client id and secret, you can use them with connector. You can do this by setting `BATON_MS365_CLIENT_ID` and `BATON_MS365_CLIENT_SECRET` (or `BATON_MS365_CLIENT_CERTIFICATE_PATH`) environment variables or by passing them as flags to baton-ms365 command. Also you have to set `BATON_MS365_TENANT_ID`.
 
+## Required permissions
+
+- User.Read.All
+- Group.ReadWrite.All (could be just read if provisioning is not used)
+- RoleManagement.ReadWrite.All (could be just read if provisioning is not used)
+
 # Getting Started
 
 ## brew
