@@ -101,7 +101,7 @@ func (r *roleBuilder) Entitlements(_ context.Context, resource *v2.Resource, _ *
 }
 
 func (r *roleBuilder) Grants(ctx context.Context, resource *v2.Resource, pToken *pagination.Token) ([]*v2.Grant, string, annotations.Annotations, error) {
-	collection, err := r.client.DirectoryRoles().ByDirectoryRoleId(resource.Id.Resource).Members().Get(ctx, nil)
+	collection, err := r.client.DirectoryRoles().ByDirectoryRoleId(resource.Id.Resource).Members().GraphUser().Get(ctx, nil)
 	if err != nil {
 		return nil, "", nil, wrapError(err, "failed to get role")
 	}
