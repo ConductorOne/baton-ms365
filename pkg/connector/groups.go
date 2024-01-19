@@ -113,8 +113,8 @@ func (g *groupBuilder) Entitlements(_ context.Context, resource *v2.Resource, _ 
 }
 
 func (g *groupBuilder) Grants(ctx context.Context, resource *v2.Resource, _ *pagination.Token) ([]*v2.Grant, string, annotations.Annotations, error) {
-	collection, err := g.client.Groups().ByGroupId(resource.Id.Resource).Members().Get(ctx, &groups.ItemMembersRequestBuilderGetRequestConfiguration{
-		QueryParameters: &groups.ItemMembersRequestBuilderGetQueryParameters{
+	collection, err := g.client.Groups().ByGroupId(resource.Id.Resource).Members().GraphUser().Get(ctx, &groups.ItemMembersGraphUserRequestBuilderGetRequestConfiguration{
+		QueryParameters: &groups.ItemMembersGraphUserRequestBuilderGetQueryParameters{
 			Top: &resourcePageSize,
 		},
 	})
