@@ -106,7 +106,7 @@ func (r *roleBuilder) Grants(ctx context.Context, resource *v2.Resource, pToken 
 		return nil, "", nil, wrapError(err, "failed to get role")
 	}
 
-	iterator, err := msgraphgocore.NewPageIterator[models.Userable](collection, r.client.GetAdapter(), models.CreateDirectoryObjectCollectionResponseFromDiscriminatorValue)
+	iterator, err := msgraphgocore.NewPageIterator[models.Userable](collection, r.client.GetAdapter(), models.CreateUserCollectionResponseFromDiscriminatorValue)
 	if err != nil {
 		return nil, "", nil, wrapError(err, "failed to create role members iterator")
 	}

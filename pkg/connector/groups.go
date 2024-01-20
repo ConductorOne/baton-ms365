@@ -122,7 +122,7 @@ func (g *groupBuilder) Grants(ctx context.Context, resource *v2.Resource, _ *pag
 		return nil, "", nil, wrapError(err, "Failed to get users")
 	}
 
-	iterator, err := msgraphgocore.NewPageIterator[models.Userable](collection, g.client.GetAdapter(), models.CreateDirectoryObjectCollectionResponseFromDiscriminatorValue)
+	iterator, err := msgraphgocore.NewPageIterator[models.Userable](collection, g.client.GetAdapter(), models.CreateUserCollectionResponseFromDiscriminatorValue)
 	if err != nil {
 		return nil, "", nil, wrapError(err, "failed to create user page iterator")
 	}
