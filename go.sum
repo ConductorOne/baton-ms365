@@ -99,8 +99,6 @@ github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDk
 github.com/cncf/udpa/go v0.0.0-20191209042840-269d4d468f6f/go.mod h1:M8M6+tZqaGXZJjfX53e64911xZQV5JYwmTeXPW+k8Sc=
 github.com/cncf/udpa/go v0.0.0-20200629203442-efcf912fb354/go.mod h1:WmhPx2Nbnhtbo57+VJT5O0JRkEi1Wbu0z5j0R8u5Hbk=
 github.com/cncf/udpa/go v0.0.0-20201120205902-5459f2c99403/go.mod h1:WmhPx2Nbnhtbo57+VJT5O0JRkEi1Wbu0z5j0R8u5Hbk=
-github.com/conductorone/baton-sdk v0.1.10 h1:VFnRBj/nGPHBoPl/ccCgLQUzrJUPGCzvTJKlb7ZTNBQ=
-github.com/conductorone/baton-sdk v0.1.10/go.mod h1:mxMxyna5UNmh9T+uQL4UApk0Ers0unkL1SGGnwjoCoc=
 github.com/conductorone/baton-sdk v0.1.11 h1:DO24e1WahpZ/Llqz01Vn1qQj3YYoj7+haGh7Ulz7hNs=
 github.com/conductorone/baton-sdk v0.1.11/go.mod h1:mxMxyna5UNmh9T+uQL4UApk0Ers0unkL1SGGnwjoCoc=
 github.com/cpuguy83/go-md2man/v2 v2.0.3/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
@@ -109,6 +107,7 @@ github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc h1:U9qPSI2PIWSS1VwoXQT9A3Wy9MM3WgvqSxFWenqJduM=
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/denisenkom/go-mssqldb v0.10.0/go.mod h1:xbL0rPBG9cCiLr28tMa8zpbdarY27NDyej4t/EjAShU=
+github.com/dnaeon/go-vcr v1.2.0 h1:zHCHvJYTMh1N7xnV7zf1m1GPBF9Ad0Jk/whtQ1663qI=
 github.com/doug-martin/goqu/v9 v9.19.0 h1:PD7t1X3tRcUiSdc5TEyOFKujZA5gs3VSA7wxSvBx7qo=
 github.com/doug-martin/goqu/v9 v9.19.0/go.mod h1:nf0Wc2/hV3gYK9LiyqIrzBEVGlI8qW3GuDCEobC4wBQ=
 github.com/dustin/go-humanize v1.0.1 h1:GzkhY7T5VNhEkwH0PVJgjz+fX1rhBrR7pRT3mDkpeCY=
@@ -255,8 +254,6 @@ github.com/mattn/go-isatty v0.0.20/go.mod h1:W+V8PltTTMOvKvAeJH7IuucS94S2C6jfK/D
 github.com/mattn/go-sqlite3 v1.14.7/go.mod h1:NyWgC/yNuGj7Q9rpYnZvas74GogHl5/Z4A/KQRfk6bU=
 github.com/microsoft/kiota-abstractions-go v1.4.0 h1:i9+LZ1wQ90xpq/gR2umCA5DgHvgBr3ibzsEdexZGnVY=
 github.com/microsoft/kiota-abstractions-go v1.4.0/go.mod h1:NRJnAFg8qqOoX/VQWTe3ZYmcIbLa20LNC+eTqO2j60U=
-github.com/microsoft/kiota-authentication-azure-go v1.0.0 h1:29FNZZ/4nnCOwFcGWlB/sxPvWz487HA2bXH8jR5k2Rk=
-github.com/microsoft/kiota-authentication-azure-go v1.0.0/go.mod h1:rnx3PRlkGdXDcA/0lZQTbBwyYGmc+3POt7HpE/e4jGw=
 github.com/microsoft/kiota-authentication-azure-go v1.0.1 h1:F4HH+2QQHSecQg50gVEZaUcxA8/XxCaC2oOMYv2gTIM=
 github.com/microsoft/kiota-authentication-azure-go v1.0.1/go.mod h1:IbifJeoi+sULI0vjnsWYSmDu5atFo/4FZ6WCoAkPjsc=
 github.com/microsoft/kiota-http-go v1.1.0 h1:L5I93EiNtlP/X6YzeTlhjWt7Q1DxzC9CmWSVtX3b0tE=
