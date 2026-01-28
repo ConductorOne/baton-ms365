@@ -1,1 +1,59 @@
-{"resourceTypeCapabilities":[{"resourceType":{"id":"user", "displayName":"User", "traits":["TRAIT_USER"]}, "capabilities":["CAPABILITY_SYNC"]}]}
+{
+  "@type":  "type.googleapis.com/c1.connector.v2.ConnectorCapabilities",
+  "resourceTypeCapabilities":  [
+    {
+      "resourceType":  {
+        "id":  "group",
+        "displayName":  "Group",
+        "traits":  [
+          "TRAIT_GROUP"
+        ],
+        "description":  "MS365 group"
+      },
+      "capabilities":  [
+        "CAPABILITY_SYNC",
+        "CAPABILITY_PROVISION"
+      ],
+      "permissions":  {}
+    },
+    {
+      "resourceType":  {
+        "id":  "role",
+        "displayName":  "Role",
+        "traits":  [
+          "TRAIT_ROLE"
+        ],
+        "description":  "Admin role of MS365"
+      },
+      "capabilities":  [
+        "CAPABILITY_SYNC",
+        "CAPABILITY_PROVISION"
+      ],
+      "permissions":  {}
+    },
+    {
+      "resourceType":  {
+        "id":  "user",
+        "displayName":  "User",
+        "traits":  [
+          "TRAIT_USER"
+        ],
+        "annotations":  [
+          {
+            "@type":  "type.googleapis.com/c1.connector.v2.SkipEntitlementsAndGrants"
+          }
+        ],
+        "description":  "MS365 user"
+      },
+      "capabilities":  [
+        "CAPABILITY_SYNC"
+      ],
+      "permissions":  {}
+    }
+  ],
+  "connectorCapabilities":  [
+    "CAPABILITY_PROVISION",
+    "CAPABILITY_SYNC"
+  ],
+  "credentialDetails":  {}
+}
