@@ -47,7 +47,7 @@ func getConnector(ctx context.Context, cc *cfg.Ms365) (types.ConnectorServer, er
 		return nil, err
 	}
 
-	cb, err := connector.New(ctx, cc.Ms365TenantId, cc.Ms365ClientId, cfg.GetAuthenticationMethod(cc))
+	cb, err := connector.New(ctx, cc.Ms365TenantId, cc.Ms365ClientId, cfg.GetAuthenticationMethod(cc), cc.BaseUrl)
 	if err != nil {
 		l.Error("error creating connector", zap.Error(err))
 		return nil, err

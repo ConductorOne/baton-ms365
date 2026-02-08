@@ -8,6 +8,7 @@ type Ms365 struct {
 	Ms365TenantId string `mapstructure:"ms365-tenant-id"`
 	Ms365ClientSecret string `mapstructure:"ms365-client-secret"`
 	Ms365ClientCertificatePath string `mapstructure:"ms365-client-certificate-path"`
+	BaseUrl string `mapstructure:"base-url"`
 }
 
 func (c *Ms365) findFieldByTag(tagValue string) (any, bool) {

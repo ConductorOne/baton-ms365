@@ -31,6 +31,10 @@ var (
 		field.WithDescription("Path to client certificate file"),
 		field.WithDisplayName("MS365 Client Certificate Path"),
 	)
+	BaseURLField = field.StringField(
+		"base-url",
+		field.WithDescription("Override the Microsoft Graph API URL (for testing)"),
+	)
 
 	// FieldRelationships defines relationships between the fields listed in
 	// Config that can be automatically validated.
@@ -43,6 +47,7 @@ var Config = field.NewConfiguration([]field.SchemaField{
 	Ms365TenantId,
 	Ms365ClientSecret,
 	Ms365ClientCertificatePath,
+	BaseURLField,
 })
 
 // ValidateConfig is run after the configuration is loaded, and should return an
