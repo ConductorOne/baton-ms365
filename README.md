@@ -1,6 +1,6 @@
 ![Baton Logo](./docs/images/baton-logo.png)
 
-# `baton-ms365` [![Go Reference](https://pkg.go.dev/badge/github.com/conductorone/baton-ms365.svg)](https://pkg.go.dev/github.com/conductorone/baton-ms365) ![main ci](https://github.com/conductorone/baton-ms365/actions/workflows/main.yaml/badge.svg)
+# `baton-ms365` [![Go Reference](https://pkg.go.dev/badge/github.com/conductorone/baton-ms365.svg)](https://pkg.go.dev/github.com/conductorone/baton-ms365) ![verify](https://github.com/conductorone/baton-ms365/actions/workflows/verify.yaml/badge.svg)
 
 `baton-ms365` is a connector for MS365 built using the [Baton SDK](https://github.com/conductorone/baton-sdk). It works with [Microsoft Graph API](https://learn.microsoft.com/en-gb/graph/api/overview?view=graph-rest-1.0).
 
