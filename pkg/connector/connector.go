@@ -7,6 +7,7 @@ import (
 	v2 "github.com/conductorone/baton-sdk/pb/c1/connector/v2"
 	"github.com/conductorone/baton-sdk/pkg/annotations"
 	"github.com/conductorone/baton-sdk/pkg/connectorbuilder"
+	az "github.com/microsoft/kiota-authentication-azure-go"
 	msgraphsdkgo "github.com/microsoftgraph/msgraph-sdk-go"
 )
 
@@ -44,16 +45,33 @@ func (d *MS365) Validate(ctx context.Context) (annotations.Annotations, error) {
 }
 
 // New returns a new instance of the connector.
-func New(ctx context.Context, tenantId, clientId string, auth AuthenticationMethod) (*MS365, error) {
+func New(ctx context.Context, tenantId, clientId string, auth AuthenticationMethod, baseURL string) (*MS365, error) {
 	credential, err := auth(tenantId, clientId)
 	if err != nil {
 		return nil, err
 	}
 
 	scopes := []string{"https://graph.microsoft.com/.default"}
-	client, err := msgraphsdkgo.NewGraphServiceClientWithCredentials(credential, scopes)
-	if err != nil {
-		return nil, wrapError(err, "failed to create graph client")
+
+	var client *msgraphsdkgo.GraphServiceClient
+	if baseURL != "" {
+		authProvider, err := az.NewAzureIdentityAuthenticationProviderWithScopes(credential, scopes)
+		if err != nil {
+			return nil, wrapError(err, "failed to create auth provider")
+		}
+
+		adapter, err := msgraphsdkgo.NewGraphRequestAdapter(authProvider)
+		if err != nil {
+			return nil, wrapError(err, "failed to create request adapter")
+		}
+		adapter.SetBaseUrl(baseURL)
+
+		client = msgraphsdkgo.NewGraphServiceClient(adapter)
+	} else {
+		client, err = msgraphsdkgo.NewGraphServiceClientWithCredentials(credential, scopes)
+		if err != nil {
+			return nil, wrapError(err, "failed to create graph client")
+		}
 	}
 
 	return &MS365{
