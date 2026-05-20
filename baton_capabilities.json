@@ -18,6 +18,20 @@
     },
     {
       "resourceType": {
+        "id": "license",
+        "displayName": "License",
+        "traits": [
+          "TRAIT_LICENSE_PROFILE"
+        ],
+        "description": "MS365 subscribed SKU (license)"
+      },
+      "capabilities": [
+        "CAPABILITY_SYNC"
+      ],
+      "permissions": {}
+    },
+    {
+      "resourceType": {
         "id": "role",
         "displayName": "Role",
         "traits": [
@@ -37,11 +51,6 @@
         "displayName": "User",
         "traits": [
           "TRAIT_USER"
-        ],
-        "annotations": [
-          {
-            "@type": "type.googleapis.com/c1.connector.v2.SkipEntitlementsAndGrants"
-          }
         ],
         "description": "MS365 user"
       },
