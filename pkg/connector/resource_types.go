@@ -11,7 +11,6 @@ var (
 		DisplayName: "User",
 		Description: "MS365 user",
 		Traits:      []v2.ResourceType_Trait{v2.ResourceType_TRAIT_USER},
-		Annotations: getSkipEntitlementsAndGrantsAnnotations(),
 	}
 	roleResourceType = &v2.ResourceType{
 		Id:          "role",
@@ -24,5 +23,11 @@ var (
 		DisplayName: "Group",
 		Description: "MS365 group",
 		Traits:      []v2.ResourceType_Trait{v2.ResourceType_TRAIT_GROUP},
+	}
+	licenseResourceType = &v2.ResourceType{
+		Id:          "license",
+		DisplayName: "License",
+		Description: "MS365 subscribed SKU (license)",
+		Traits:      []v2.ResourceType_Trait{v2.ResourceType_TRAIT_LICENSE_PROFILE},
 	}
 )

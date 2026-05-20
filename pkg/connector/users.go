@@ -7,12 +7,15 @@ import (
 	v2 "github.com/conductorone/baton-sdk/pb/c1/connector/v2"
 	"github.com/conductorone/baton-sdk/pkg/annotations"
 	"github.com/conductorone/baton-sdk/pkg/pagination"
+	grant "github.com/conductorone/baton-sdk/pkg/types/grant"
 	rs "github.com/conductorone/baton-sdk/pkg/types/resource"
 	msgraphsdkgo "github.com/microsoftgraph/msgraph-sdk-go"
 	msgraphsdkgocore "github.com/microsoftgraph/msgraph-sdk-go-core"
 	"github.com/microsoftgraph/msgraph-sdk-go/models"
 	"github.com/microsoftgraph/msgraph-sdk-go/users"
 )
+
+const assignedLicense = "assigned_license"
 
 type userBuilder struct {
 	resourceType *v2.ResourceType
@@ -38,11 +41,17 @@ func newUserResource(ctx context.Context, user models.Userable) (*v2.Resource, e
 		firstName = displayName
 	}
 
+	assigned := user.GetAssignedLicenses()
+	skuIDs := make([]interface{}, 0, len(assigned))
+	for _, license := range assigned {
+		skuIDs = append(skuIDs, license.GetSkuId().String())
+	}
 	profile := map[string]interface{}{
-		"first_name":   *firstName,
-		"display_name": *displayName,
-		"login":        *userName,
-		"user_id":      *user.GetId(),
+		"first_name":    *firstName,
+		"display_name":  *displayName,
+		"login":         *userName,
+		"user_id":       *user.GetId(),
+		assignedLicense: skuIDs,
 	}
 	if lastName := user.GetSurname(); lastName != nil {
 		profile["last_name"] = *lastName
@@ -87,6 +96,16 @@ func (o *userBuilder) List(ctx context.Context, parentResourceID *v2.ResourceId,
 	collection, err := o.client.Users().Get(ctx, &users.UsersRequestBuilderGetRequestConfiguration{
 		QueryParameters: &users.UsersRequestBuilderGetQueryParameters{
 			Top: &resourcePageSize,
+			Select: []string{
+				"id",
+				"displayName",
+				"userPrincipalName",
+				"accountEnabled",
+				"givenName",
+				"surname",
+				"mail",
+				"assignedLicenses",
+			},
 		},
 	})
 	if err != nil {
@@ -129,7 +148,33 @@ func (o *userBuilder) Entitlements(_ context.Context, resource *v2.Resource, _ *
 
 // Grants always returns an empty slice for users since they don't have any entitlements.
 func (o *userBuilder) Grants(ctx context.Context, resource *v2.Resource, pToken *pagination.Token) ([]*v2.Grant, string, annotations.Annotations, error) {
-	return nil, "", nil, nil
+	var grants []*v2.Grant
+	traits, err := rs.GetUserTrait(resource)
+	if err != nil {
+		return nil, "", nil, wrapError(err, "failed to get user trait")
+	}
+
+	licensesVal, ok := traits.GetProfile().GetFields()[assignedLicense]
+	// not all the users consumes the license.
+	if !ok {
+		return nil, "", nil, nil
+	}
+
+	for _, v := range licensesVal.GetListValue().GetValues() {
+		license := v.GetStringValue()
+		grant := grant.NewGrant(
+			&v2.Resource{
+				Id: &v2.ResourceId{
+					Resource:     license,
+					ResourceType: licenseResourceType.Id,
+				},
+			},
+			licenseEntitlementAssigned,
+			resource.Id,
+		)
+		grants = append(grants, grant)
+	}
+	return grants, "", nil, nil
 }
 
 func newUserBuilder(client *msgraphsdkgo.GraphServiceClient) *userBuilder {
