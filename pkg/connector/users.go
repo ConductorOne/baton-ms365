@@ -163,7 +163,7 @@ func (o *userBuilder) Grants(ctx context.Context, resource *v2.Resource, pToken 
 
 	for _, v := range licensesVal.GetListValue().GetValues() {
 		license := v.GetStringValue()
-		grant := grant.NewGrant(
+		grants = append(grants, grant.NewGrant(
 			&v2.Resource{
 				Id: &v2.ResourceId{
 					Resource:     license,
@@ -172,8 +172,7 @@ func (o *userBuilder) Grants(ctx context.Context, resource *v2.Resource, pToken 
 			},
 			licenseEntitlementAssigned,
 			resource.Id,
-		)
-		grants = append(grants, grant)
+		))
 	}
 	return grants, "", nil, nil
 }
