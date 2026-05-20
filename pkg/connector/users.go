@@ -44,7 +44,9 @@ func newUserResource(ctx context.Context, user models.Userable) (*v2.Resource, e
 	assigned := user.GetAssignedLicenses()
 	skuIDs := make([]interface{}, 0, len(assigned))
 	for _, license := range assigned {
-		skuIDs = append(skuIDs, license.GetSkuId().String())
+		if license.GetSkuId() != nil {
+			skuIDs = append(skuIDs, license.GetSkuId().String())
+		}
 	}
 	profile := map[string]interface{}{
 		"first_name":    *firstName,
@@ -146,7 +148,6 @@ func (o *userBuilder) Entitlements(_ context.Context, resource *v2.Resource, _ *
 	return nil, "", nil, nil
 }
 
-// Grants always returns an empty slice for users since they don't have any entitlements.
 func (o *userBuilder) Grants(ctx context.Context, resource *v2.Resource, pToken *pagination.Token) ([]*v2.Grant, string, annotations.Annotations, error) {
 	var grants []*v2.Grant
 	traits, err := rs.GetUserTrait(resource)
