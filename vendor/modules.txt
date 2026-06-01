@@ -199,7 +199,7 @@ github.com/cespare/xxhash/v2
 # github.com/cjlapao/common-go v0.0.39
 ## explicit; go 1.19
 github.com/cjlapao/common-go/duration
-# github.com/conductorone/baton-sdk v0.11.0
+# github.com/conductorone/baton-sdk v0.11.1
 ## explicit; go 1.25.2
 github.com/conductorone/baton-sdk/internal/connector
 github.com/conductorone/baton-sdk/pb/c1/c1z/v1
