@@ -23,12 +23,35 @@
         "traits": [
           "TRAIT_LICENSE_PROFILE"
         ],
+        "annotations": [
+          {
+            "@type": "type.googleapis.com/c1.connector.v2.SkipGrants"
+          },
+          {
+            "@type": "type.googleapis.com/c1.connector.v2.OptInRequired"
+          },
+          {
+            "@type": "type.googleapis.com/c1.connector.v2.CapabilityPermissions",
+            "permissions": [
+              {
+                "permission": "LicenseAssignment.Read.All"
+              }
+            ]
+          }
+        ],
         "description": "MS365 subscribed SKU (license)"
       },
       "capabilities": [
         "CAPABILITY_SYNC"
       ],
-      "permissions": {}
+      "permissions": {
+        "permissions": [
+          {
+            "permission": "LicenseAssignment.Read.All"
+          }
+        ]
+      },
+      "optInRequired": true
     },
     {
       "resourceType": {
@@ -51,6 +74,11 @@
         "displayName": "User",
         "traits": [
           "TRAIT_USER"
+        ],
+        "annotations": [
+          {
+            "@type": "type.googleapis.com/c1.connector.v2.SkipEntitlements"
+          }
         ],
         "description": "MS365 user"
       },
