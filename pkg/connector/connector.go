@@ -21,6 +21,7 @@ func (d *MS365) ResourceSyncers(ctx context.Context) []connectorbuilder.Resource
 		newUserBuilder(d.client),
 		newGroupBuilder(d.client),
 		newRoleBuilder(d.client),
+		newLicenseBuilder(d.client),
 	}
 }
 
