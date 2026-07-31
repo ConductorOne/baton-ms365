@@ -42,11 +42,11 @@ func newGroupResource(ctx context.Context, group models.Groupable) (*v2.Resource
 		"group_id": *groupId,
 	}
 
-	groupTraits := []rs.GroupTraitOption{
-		rs.WithGroupProfile(profile),
-	}
+	groupTraits := []rs.GroupTraitOption{}
 
-	resource, err := rs.NewGroupResource(*displayName, groupResourceType, *groupId, groupTraits)
+	resource, err := rs.NewGroupResource(*displayName, groupResourceType, *groupId, groupTraits,
+		rs.WithResourceProfile(profile),
+	)
 	if err != nil {
 		return nil, err
 	}

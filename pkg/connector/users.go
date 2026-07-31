@@ -70,9 +70,7 @@ func newUserResource(ctx context.Context, user models.Userable) (*v2.Resource, e
 	}
 
 	userTraits := []rs.UserTraitOption{
-		rs.WithUserProfile(profile),
 		rs.WithUserLogin(*userName),
-		rs.WithStatus(status),
 	}
 
 	resource, err := rs.NewUserResource(
@@ -80,6 +78,8 @@ func newUserResource(ctx context.Context, user models.Userable) (*v2.Resource, e
 		userResourceType,
 		*userId,
 		userTraits,
+		rs.WithResourceProfile(profile),
+		rs.WithResourceStatus(v2.Status_ResourceStatus(status), ""),
 	)
 	if err != nil {
 		return nil, err
@@ -150,12 +150,7 @@ func (o *userBuilder) Entitlements(_ context.Context, resource *v2.Resource, _ *
 
 func (o *userBuilder) Grants(ctx context.Context, resource *v2.Resource, pToken *pagination.Token) ([]*v2.Grant, string, annotations.Annotations, error) {
 	var grants []*v2.Grant
-	traits, err := rs.GetUserTrait(resource)
-	if err != nil {
-		return nil, "", nil, wrapError(err, "failed to get user trait")
-	}
-
-	licensesVal, ok := traits.GetProfile().GetFields()[assignedLicense]
+	licensesVal, ok := rs.GetProfile(resource).GetFields()[assignedLicense]
 	// not all the users consumes the license.
 	if !ok {
 		return nil, "", nil, nil
