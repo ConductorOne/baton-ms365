@@ -37,11 +37,11 @@ func newRoleResource(ctx context.Context, role models.DirectoryRoleable) (*v2.Re
 		"role_id": *roleId,
 	}
 
-	roleTraits := []rs.RoleTraitOption{
-		rs.WithRoleProfile(profile),
-	}
+	roleTraits := []rs.RoleTraitOption{}
 
-	resource, err := rs.NewRoleResource(*displayName, roleResourceType, *roleId, roleTraits)
+	resource, err := rs.NewRoleResource(*displayName, roleResourceType, *roleId, roleTraits,
+		rs.WithResourceProfile(profile),
+	)
 	if err != nil {
 		return nil, err
 	}
