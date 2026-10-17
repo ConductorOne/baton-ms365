@@ -1,13 +1,11 @@
 module github.com/conductorone/baton-ms365
 
-go 1.27.1
-
-toolchain go1.27.2
+go 1.27.2
 
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.11.1
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.6.0
-	github.com/conductorone/baton-sdk v0.40.0
+	github.com/conductorone/baton-sdk v0.41.0
 	github.com/ennyjfrick/ruleguard-logfatal v0.0.2
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
 	github.com/microsoft/kiota-authentication-azure-go v1.0.1
